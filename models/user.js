@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    name: { type: string, required: true },
-    email: { type: string, required: true, unique: true },
-    password: { type: string, require: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, require: true },
     repeat_password: { type: Schema.Types.ObjectId, ref: "password" },
   },
   { timestamps: true }

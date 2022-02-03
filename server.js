@@ -1,11 +1,13 @@
 import express from "express";
 import { APP_PORT } from "./config";
 import router from "./routers";
+import errorHandler from "./middlewares/errorHandler";
 
 const app = express();
 
 app.use(express.json());
 app.use("/api", router);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send(`Hello you are listening on port ${APP_PORT}`);
