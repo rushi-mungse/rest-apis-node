@@ -1,0 +1,13 @@
+{
+  "name": "rest-apis",
+  "version": "1.0.0",
+  "description": "nodeJS and express costom apis",
+  "main": "index.js",
+  "author": "rushi-mungse",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2",
+    "joi": "^17.6.0",
+    "mongoose": "^6.2.0"
+  }
+}
