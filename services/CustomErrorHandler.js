@@ -9,7 +9,11 @@ class CustomErrorHandler extends Error {
   }
 
   static wrongCreditials(message) {
-    return new CustomErrorHandler(500, message);
+    return new CustomErrorHandler(401, message);
+  }
+
+  static unAuthrised(message) {
+    return new CustomErrorHandler(401, message);
   }
 }
 export default CustomErrorHandler;
