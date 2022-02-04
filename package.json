@@ -6,14 +6,16 @@
   "author": "rushi-mungse",
   "license": "MIT",
   "scripts": {
-    "dev":"nodemon -r esm server",
-    "start":"node -r esm server"
+    "dev": "nodemon -r esm server",
+    "start": "node -r esm server"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "esm": "^3.2.25",
     "express": "^4.17.2",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.0"
   },
   "devDependencies": {

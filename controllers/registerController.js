@@ -1,8 +1,11 @@
 import Joi from "joi";
 import User from "../models/user";
 import CustomErrorHandler from "../services/CustomErrorHandler";
+import bcrypt from "bcrypt";
+import JwtService from "../services/JwtService";
 
 const registerController = {
+  //register api
   async rgister(req, res, next) {
     //get data from user
     const { name, email, password, repeat_password } = req.body;
@@ -29,7 +32,27 @@ const registerController = {
     } catch (error) {
       return next(error);
     }
-    res.json(req.body);
+
+    //Hash password
+    const hashPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      name,
+      email,
+      password: hashPassword,
+    });
+    let access_token;
+    try {
+      const result = await user.save();
+      //creating access token
+      access_token = await JwtService.sign({
+        _id: result._id,
+        role: result.role,
+      });
+    } catch (error) {
+      return next(error);
+    }
+
+    res.json({ access_token });
   },
 };
 
