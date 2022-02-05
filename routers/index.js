@@ -11,7 +11,7 @@ import {
 router.post("/register", registerController.rgister);
 router.post("/login", loginController.login);
 router.get("/me", auth, userController.me);
-
 router.post("/refresh", auth, refreshController.refresh);
+router.post("/logout", auth, userController.logout);
 
 export default router;
