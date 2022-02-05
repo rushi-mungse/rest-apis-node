@@ -3,6 +3,8 @@ import User from "../models/user";
 import CustomErrorHandler from "../services/CustomErrorHandler";
 import bcrypt from "bcrypt";
 import JwtService from "../services/JwtService";
+import { JWT_REFRESH_SECRET } from "../config";
+import Refresh from "../models/refresh";
 
 const registerController = {
   //register api
@@ -40,7 +42,7 @@ const registerController = {
       email,
       password: hashPassword,
     });
-    let access_token;
+    let access_token, refresh_token;
     try {
       const result = await user.save();
       //creating access token
@@ -48,11 +50,22 @@ const registerController = {
         _id: result._id,
         role: result.role,
       });
+
+      refresh_token = await JwtService.sign(
+        {
+          _id: result._id,
+          role: result.role,
+        },
+        "1y",
+        JWT_REFRESH_SECRET
+      );
+
+      await Refresh.create({ refreshToken: refresh_token });
     } catch (error) {
       return next(error);
     }
 
-    res.json({ access_token });
+    res.json({ access_token, refresh_token });
   },
 };
 

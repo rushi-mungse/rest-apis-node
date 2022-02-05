@@ -3,6 +3,7 @@ import User from "../models/user";
 import CustomErrorHandler from "../services/CustomErrorHandler";
 import bcrypt from "bcrypt";
 import JwtService from "../services/JwtService";
+import { JWT_REFRESH_SECRET } from "../config";
 
 const loginController = {
   //login api
@@ -34,7 +35,12 @@ const loginController = {
           CustomErrorHandler.wrongCreditials("Username and password wrong")
         );
       const access_token = await JwtService.sign({ _id: user._id });
-      return res.status(200).json({ access_token });
+      const refresh_token = await JwtService.sign(
+        { _id: user._id },
+        "1y",
+        JWT_REFRESH_SECRET
+      );
+      return res.status(200).json({ access_token, refresh_token });
     } catch (error) {
       return next(error);
     }
