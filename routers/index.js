@@ -6,6 +6,7 @@ import {
   registerController,
   userController,
   refreshController,
+  productController,
 } from "../controllers";
 
 router.post("/register", registerController.rgister);
@@ -13,5 +14,5 @@ router.post("/login", loginController.login);
 router.get("/me", auth, userController.me);
 router.post("/refresh", auth, refreshController.refresh);
 router.post("/logout", auth, userController.logout);
-
+router.post("/product", productController.product);
 export default router;
