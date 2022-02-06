@@ -12,6 +12,7 @@ const auth = async (req, res, next) => {
 
   try {
     const { _id, role } = await JwtService.verify(token);
+    console.log(role);
 
     if (!_id && !role) {
       return next(CustomErrorHandler.unAuthrised("unAuthrised..."));

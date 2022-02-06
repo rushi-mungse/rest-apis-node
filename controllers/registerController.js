@@ -10,7 +10,7 @@ const registerController = {
   //register api
   async rgister(req, res, next) {
     //get data from user
-    const { name, email, password, repeat_password } = req.body;
+    const { name, email, password } = req.body;
     //validate user data
     const userSchema = Joi.object({
       name: Joi.string().min(3).max(30).required(),
