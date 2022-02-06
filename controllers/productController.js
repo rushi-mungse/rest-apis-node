@@ -125,6 +125,15 @@ const productController = {
       return next(error);
     }
   },
+  async delete(req, res, next) {
+    const id = req.params.id;
+    try {
+      await Product.findOneAndRemove({ _id: id });
+      res.status(201).json({ Status: "OK" });
+    } catch (error) {
+      return next(CustomErrorHandler.serverError("Internal error..."));
+    }
+  },
 };
 
 export default productController;
