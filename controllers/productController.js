@@ -116,6 +116,15 @@ const productController = {
       }
     });
   },
+  async get(req, res, next) {
+    let products;
+    try {
+      products = await Product.find();
+      return res.status(200).json(products);
+    } catch (error) {
+      return next(error);
+    }
+  },
 };
 
 export default productController;
