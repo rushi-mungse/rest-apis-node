@@ -67,6 +67,55 @@ const productController = {
       }
     });
   },
+  async update(req, res, next) {
+    handleMultipartData(req, res, async (err) => {
+      if (err) {
+        console.log(err);
+        return next(CustomErrorHandler.serverError("Internal server Error.."));
+      }
+      let filePath;
+      if (req.file) {
+        filePath = req.file.path;
+      }
+      //validation
+      const productSchema = Joi.object({
+        name: Joi.string().required(),
+        size: Joi.string().required(),
+        price: Joi.number().required(),
+      });
+      const { error } = productSchema.validate(req.body);
+      if (error) return next(error);
+
+      if (error && filePath) {
+        //delete the image
+        fs.unlink(`${appRoot}${filePath}`, (err) => {
+          if (err) {
+            return next(
+              CustomErrorHandler.serverError("Internal server Error...")
+            );
+          }
+          return next(error);
+        });
+      }
+      const { name, price, size } = req.body;
+      let document;
+      try {
+        document = await Product.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            name,
+            price,
+            size,
+            ...(filePath && { image: filePath }),
+          },
+          { new: true }
+        );
+        res.status(200).json(document);
+      } catch (error) {
+        return next(CustomErrorHandler.serverError("Internal error..."));
+      }
+    });
+  },
 };
 
 export default productController;

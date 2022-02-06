@@ -15,4 +15,6 @@ router.get("/me", auth, userController.me);
 router.post("/refresh", auth, refreshController.refresh);
 router.post("/logout", auth, userController.logout);
 router.post("/product", productController.product);
+router.put("/product/:id", productController.update);
+
 export default router;
